@@ -42,12 +42,41 @@ export const BookingForm = () => {
 
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
-    console.log("Submitting booking:", data);
 
     try {
-      // TODO: Call edge function to create Google Calendar event and send email
+      // Format date for Google Calendar
+      const bookingDate = new Date(data.dateTime);
+      const startDate = bookingDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      const endDate = new Date(bookingDate.getTime() + 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      
+      // Create Google Calendar link
+      const calendarTitle = encodeURIComponent(`Transfer: ${data.meetingLocation} → ${data.destination}`);
+      const calendarDetails = encodeURIComponent(
+        `Local de Encontro: ${data.meetingLocation}\n` +
+        `Destino: ${data.destination}\n` +
+        `Malas: ${data.numberOfBags}\n` +
+        `Telefone: ${data.phone}`
+      );
+      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calendarTitle}&dates=${startDate}/${endDate}&details=${calendarDetails}`;
+
+      // Create WhatsApp message
+      const whatsappMessage = encodeURIComponent(
+        `🚕 *Nova Reserva de Transfer*\n\n` +
+        `📍 *Local de Encontro:* ${data.meetingLocation}\n` +
+        `🧳 *Malas:* ${data.numberOfBags}\n` +
+        `🎯 *Destino:* ${data.destination}\n` +
+        `📅 *Data/Hora:* ${bookingDate.toLocaleString('pt-PT')}\n` +
+        `📱 *Telefone:* ${data.phone}`
+      );
+      const whatsappNumber = "351912345678"; // TODO: Replace with actual taxi driver number
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+      // Open both links
+      window.open(googleCalendarUrl, '_blank');
+      window.open(whatsappUrl, '_blank');
+
       toast.success("Reserva enviada com sucesso!", {
-        description: "Receberá uma confirmação em breve.",
+        description: "Links do WhatsApp e Google Calendar foram abertos.",
       });
       form.reset();
     } catch (error) {
