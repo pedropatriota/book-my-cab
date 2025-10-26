@@ -52,7 +52,7 @@ const Index = () => {
             </div>
             <h3 className="font-semibold text-lg mb-2">Segurança Total</h3>
             <p className="text-muted-foreground text-sm">
-              Motoristas profissionais certificados
+              Motoristas profissionais
             </p>
           </div>
 
