@@ -68,7 +68,7 @@ export const BookingForm = () => {
         `📅 *Data/Hora:* ${bookingDate.toLocaleString('pt-PT')}\n` +
         `📱 *Telefone:* ${data.phone}`
       );
-      const whatsappNumber = "351912345678"; // TODO: Replace with actual taxi driver number
+      const whatsappNumber = "351913809375"; // TODO: Replace with actual taxi driver number
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
       // Open both links
