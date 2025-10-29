@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,12 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { gapi } from "gapi-script";
-
-// Get credentials from environment variables
-const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
 const bookingSchema = z.object({
   name: z.string().min(2, "Nome é obrigatório"),
@@ -34,8 +28,10 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 
 export const BookingForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
+  const [customerCalendarUrl, setCustomerCalendarUrl] = useState<string | null>(
+    null
+  );
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
@@ -49,67 +45,29 @@ export const BookingForm = () => {
     },
   });
 
-  // Initialize Google API
-  useEffect(() => {
-    function start() {
-      gapi.client
-        .init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          scope: SCOPES,
-          discoveryDocs: [
-            "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-          ],
-        })
-        .then(() => {
-          const authInstance = gapi.auth2.getAuthInstance();
-          setIsSignedIn(authInstance.isSignedIn.get());
-          authInstance.isSignedIn.listen(setIsSignedIn);
-        })
-        .catch((error) => {
-          console.error("Error initializing Google API:", error);
-        });
-    }
-    gapi.load("client:auth2", start);
-  }, []);
-
-  const handleSignIn = () => {
-    gapi.auth2.getAuthInstance().signIn();
-  };
-
-  const createCalendarEvent = async (data: BookingFormData) => {
+  const createCustomerCalendarLink = (data: BookingFormData) => {
     const bookingDate = new Date(data.dateTime);
-    const endDate = new Date(bookingDate.getTime() + 60 * 60 * 1000);
+    const startDate =
+      bookingDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+    const endDate =
+      new Date(bookingDate.getTime() + 60 * 60 * 1000)
+        .toISOString()
+        .replace(/[-:]/g, "")
+        .split(".")[0] + "Z";
 
-    const event = {
-      summary: `Transfer: ${data.name} - ${data.meetingLocation} → ${data.destination}`,
-      description:
-        `Cliente: ${data.name}\n` +
-        `Local de Encontro: ${data.meetingLocation}\n` +
+    const calendarTitle = encodeURIComponent(
+      `Transfer: ${data.meetingLocation} → ${data.destination}`
+    );
+    const calendarDetails = encodeURIComponent(
+      `Local de Encontro: ${data.meetingLocation}\n` +
         `Destino: ${data.destination}\n` +
         `Malas: ${data.numberOfBags}\n` +
-        `Telefone: ${data.phone}`,
-      start: {
-        dateTime: bookingDate.toISOString(),
-        timeZone: "Europe/Lisbon",
-      },
-      end: {
-        dateTime: endDate.toISOString(),
-        timeZone: "Europe/Lisbon",
-      },
-      location: data.meetingLocation,
-    };
+        `Telefone: ${data.phone}`
+    );
 
-    try {
-      const response = await gapi.client.calendar.events.insert({
-        calendarId: "primary",
-        resource: event,
-      });
-      return response.result;
-    } catch (error) {
-      console.error("Error creating calendar event:", error);
-      throw error;
-    }
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${calendarTitle}&dates=${startDate}/${endDate}&details=${calendarDetails}&location=${encodeURIComponent(
+      data.meetingLocation
+    )}`;
   };
 
   const onSubmit = async (data: BookingFormData) => {
@@ -118,15 +76,29 @@ export const BookingForm = () => {
     try {
       const bookingDate = new Date(data.dateTime);
 
-      // Create event in Google Calendar automatically
-      if (isSignedIn) {
-        await createCalendarEvent(data);
-        toast.success("Evento criado no Google Calendar!");
-      } else {
-        toast.error("Por favor, faça login no Google primeiro");
-        setIsSubmitting(false);
-        return;
+      // Send booking to backend API
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3333";
+      const response = await fetch(`${apiUrl}/api/create-booking`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Falha ao criar reserva");
       }
+
+      toast.success("Reserva criada com sucesso!", {
+        description: "O evento foi adicionado ao calendário do motorista.",
+      });
+
+      // Create Google Calendar link for customer (optional)
+      const customerCalLink = createCustomerCalendarLink(data);
+      setCustomerCalendarUrl(customerCalLink);
 
       // Create WhatsApp message
       const whatsappMessage = encodeURIComponent(
@@ -151,18 +123,18 @@ export const BookingForm = () => {
           toast.error("Pop-up bloqueado!", {
             description: "Use o botão abaixo para abrir o WhatsApp.",
           });
-        } else {
-          toast.success("Reserva enviada com sucesso!", {
-            description: "Evento adicionado ao calendário e WhatsApp aberto.",
-          });
         }
       }, 500);
 
       form.reset();
+      setCustomerCalendarUrl(customerCalLink); // Keep the link visible for customer
     } catch (error) {
       console.error("Error submitting booking:", error);
       toast.error("Erro ao enviar reserva", {
-        description: "Por favor, tente novamente.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Por favor, tente novamente.",
       });
     } finally {
       setIsSubmitting(false);
@@ -179,20 +151,6 @@ export const BookingForm = () => {
           Preencha o formulário e receba confirmação imediata
         </p>
       </div>
-
-      {!isSignedIn && (
-        <div className="mb-6">
-          <Button
-            type="button"
-            onClick={handleSignIn}
-            variant="outline"
-            className="w-full"
-          >
-            <Calendar className="w-4 h-4 mr-2" />
-            Conectar Google Calendar
-          </Button>
-        </div>
-      )}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -323,7 +281,7 @@ export const BookingForm = () => {
 
           <Button
             type="submit"
-            disabled={isSubmitting || !isSignedIn}
+            disabled={isSubmitting}
             className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-primary to-[hsl(35,91%,55%)] hover:opacity-90 transition-opacity shadow-[var(--shadow-soft)]"
           >
             {isSubmitting ? "A enviar..." : "Confirmar Reserva"}
@@ -331,16 +289,31 @@ export const BookingForm = () => {
         </form>
       </Form>
 
-      {whatsappUrl && (
-        <div className="mt-4">
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full h-12"
-            onClick={() => window.open(whatsappUrl, "_blank")}
-          >
-            📱 Abrir WhatsApp Manualmente
-          </Button>
+      {/* Action buttons after form submission */}
+      {(whatsappUrl || customerCalendarUrl) && (
+        <div className="mt-6 space-y-3">
+          {whatsappUrl && (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12"
+              onClick={() => window.open(whatsappUrl, "_blank")}
+            >
+              📱 Abrir WhatsApp
+            </Button>
+          )}
+
+          {customerCalendarUrl && (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-12"
+              onClick={() => window.open(customerCalendarUrl, "_blank")}
+            >
+              <Calendar className="w-4 h-4 mr-2" />
+              Adicionar ao Meu Calendário (Opcional)
+            </Button>
+          )}
         </div>
       )}
     </div>
