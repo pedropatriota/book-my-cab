@@ -1,5 +1,5 @@
 {
   "version": 2,
-  "builds": [{ "src": "api/create-booking.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "api/create-booking.js" }]
+  "builds": [{ "src": "api/:path*", "use": "@vercel/node" }],
+  "routes": [{ "src": "api/:path*", "dest": "api/:path*" }]
 }
