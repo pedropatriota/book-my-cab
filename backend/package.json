@@ -7,7 +7,7 @@
     "start": "node api/create-booking.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "dependencies": {
     "googleapis": "^128.0.0"
