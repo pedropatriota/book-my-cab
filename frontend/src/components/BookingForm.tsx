@@ -17,6 +17,7 @@ import {
 
 const bookingSchema = z.object({
   name: z.string().min(2, "Nome é obrigatório"),
+  passageiros: z.string().min(1, "Número de passageiros é obrigatório"),
   meetingLocation: z.string().min(3, "Local de encontro é obrigatório"),
   numberOfBags: z.string().min(1, "Quantidade de malas é obrigatória"),
   destination: z.string().min(3, "Destino é obrigatório"),
@@ -37,6 +38,7 @@ export const BookingForm = () => {
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       name: "",
+      passageiros:"",
       meetingLocation: "",
       numberOfBags: "",
       destination: "",
@@ -102,13 +104,14 @@ export const BookingForm = () => {
 
       // Create WhatsApp message
       const whatsappMessage = encodeURIComponent(
-        `🚕 *Nova Reserva de Transfer*\n\n` +
-          `👤 *Cliente:* ${data.name}\n` +
-          `📍 *Local de Encontro:* ${data.meetingLocation}\n` +
-          `🧳 *Malas:* ${data.numberOfBags}\n` +
-          `🎯 *Destino:* ${data.destination}\n` +
-          `📅 *Data/Hora:* ${bookingDate.toLocaleString("pt-PT")}\n` +
-          `📱 *Telefone:* ${data.phone}`
+        `Nova Reserva de Transfer*\n\n` +
+          `*Cliente:* ${data.name}\n` +
+          `*Passageiros:* ${data.passageiros}\n` +
+          `*Local de Encontro:* ${data.meetingLocation}\n` +
+          `*Malas:* ${data.numberOfBags}\n` +
+          `*Destino:* ${data.destination}\n` +
+          `*Data/Hora:* ${bookingDate.toLocaleString("pt-PT")}\n` +
+          `*Telefone:* ${data.phone}`
       );
       const whatsappNumber = "351913809375";
       const url = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
@@ -166,6 +169,29 @@ export const BookingForm = () => {
                 <FormControl>
                   <Input
                     placeholder="Ex: João Silva"
+                    {...field}
+                    className="h-12"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+<FormField
+            control={form.control}
+            name="passageiros"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-primary" />
+                  Nome Completo
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0"
+                    placeholder="Ex: 2"
                     {...field}
                     className="h-12"
                   />

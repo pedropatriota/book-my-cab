@@ -56,6 +56,7 @@ export default async function handler(req, res) {
       summary: `Transfer: ${name} - ${meetingLocation} → ${destination}`,
       description:
         `Cliente: ${name}\n` +
+        `Passageiros:* ${data.passageiros}\n` +
         `Local de Encontro: ${meetingLocation}\n` +
         `Destino: ${destination}\n` +
         `Malas: ${numberOfBags}\n` +
@@ -69,7 +70,7 @@ export default async function handler(req, res) {
         timeZone: "Europe/Lisbon",
       },
       location: meetingLocation,
-      colorId: "5", // Yellow color for visibility
+      colorId: "5", 
     };
 
     const response = await calendar.events.insert({
