@@ -130,7 +130,7 @@ export const BookingForm = () => {
       }, 500);
 
       form.reset();
-      setCustomerCalendarUrl(customerCalLink); // Keep the link visible for customer
+      setCustomerCalendarUrl(customerCalLink); 
     } catch (error) {
       console.error("Error submitting booking:", error);
       toast.error("Erro ao enviar reserva", {
@@ -212,7 +212,7 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ex: Aeroporto de Lisboa, Terminal 1"
+                    placeholder="Ex: Vila do Conde"
                     {...field}
                     className="h-12"
                   />
@@ -256,7 +256,7 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ex: Rua Augusta, Lisboa"
+                    placeholder="Ex: Aeroporto Francisco Sá Carneiro (OPO)"
                     {...field}
                     className="h-12"
                   />
