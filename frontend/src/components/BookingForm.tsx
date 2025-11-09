@@ -168,6 +168,7 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    required
                     placeholder="Ex: João Silva"
                     {...field}
                     className="h-12"
@@ -180,18 +181,18 @@ export const BookingForm = () => {
 
 <FormField
             control={form.control}
-            name="passageiros"
+            name="phone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-primary" />
-                  Nome Completo
+                  <Phone className="w-4 h-4 text-primary" />
+                  Telefone de Contacto
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
-                    min="0"
-                    placeholder="Ex: 2"
+                    required
+                    type="tel"
+                    placeholder="Ex: +351 912 345 678"
                     {...field}
                     className="h-12"
                   />
@@ -212,7 +213,70 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    required
                     placeholder="Ex: Vila do Conde"
+                    {...field}
+                    className="h-12"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+<FormField
+            control={form.control}
+            name="destination"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  Destino
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    required
+                    placeholder="Ex: Aeroporto Francisco Sá Carneiro (OPO)"
+                    {...field}
+                    className="h-12"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+         <FormField
+            control={form.control}
+            name="dateTime"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-primary" />
+                  Data e Horário
+                </FormLabel>
+                <FormControl>
+                  <Input required type="datetime-local" {...field} className="h-12" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+         <FormField
+            control={form.control}
+            name="passageiros"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-primary" />
+                  Quantidade de Passageiros
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0"
+                    placeholder="Ex: 2"
                     {...field}
                     className="h-12"
                   />
@@ -236,66 +300,6 @@ export const BookingForm = () => {
                     type="number"
                     min="0"
                     placeholder="Ex: 2"
-                    {...field}
-                    className="h-12"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="destination"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  Destino
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Ex: Aeroporto Francisco Sá Carneiro (OPO)"
-                    {...field}
-                    className="h-12"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="dateTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-primary" />
-                  Data e Horário
-                </FormLabel>
-                <FormControl>
-                  <Input type="datetime-local" {...field} className="h-12" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-primary" />
-                  Telefone de Contacto
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="tel"
-                    placeholder="Ex: +351 912 345 678"
                     {...field}
                     className="h-12"
                   />
@@ -337,7 +341,7 @@ export const BookingForm = () => {
               onClick={() => window.open(customerCalendarUrl, "_blank")}
             >
               <Calendar className="w-4 h-4 mr-2" />
-              Adicionar ao Meu Calendário (Opcional)
+              Adicionar ao Meu Calendário
             </Button>
           )}
         </div>
