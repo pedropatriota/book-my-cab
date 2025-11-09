@@ -38,7 +38,7 @@ export const BookingForm = () => {
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       name: "",
-      passageiros:"",
+      passageiros: "",
       meetingLocation: "",
       numberOfBags: "",
       destination: "",
@@ -74,6 +74,8 @@ export const BookingForm = () => {
 
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
+
+    console.log({ data });
 
     try {
       const bookingDate = new Date(data.dateTime);
@@ -130,7 +132,7 @@ export const BookingForm = () => {
       }, 500);
 
       form.reset();
-      setCustomerCalendarUrl(customerCalLink); 
+      setCustomerCalendarUrl(customerCalLink);
     } catch (error) {
       console.error("Error submitting booking:", error);
       toast.error("Erro ao enviar reserva", {
@@ -179,7 +181,7 @@ export const BookingForm = () => {
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
@@ -224,7 +226,7 @@ export const BookingForm = () => {
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="destination"
             render={({ field }) => (
@@ -246,7 +248,7 @@ export const BookingForm = () => {
             )}
           />
 
-         <FormField
+          <FormField
             control={form.control}
             name="dateTime"
             render={({ field }) => (
@@ -256,14 +258,19 @@ export const BookingForm = () => {
                   Data e Horário
                 </FormLabel>
                 <FormControl>
-                  <Input required type="datetime-local" {...field} className="h-12" />
+                  <Input
+                    required
+                    type="datetime-local"
+                    {...field}
+                    className="h-12"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-         <FormField
+          <FormField
             control={form.control}
             name="passageiros"
             render={({ field }) => (
