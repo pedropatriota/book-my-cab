@@ -20,12 +20,12 @@ export default async function handler(req, res) {
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
-
+  
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
-
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
@@ -38,6 +38,7 @@ export default async function handler(req, res) {
       destination,
       dateTime,
       phone,
+      passageiros, // ✅ Added this field
     } = req.body;
 
     // Validate required fields
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
       summary: `Transfer: ${name} - ${meetingLocation} → ${destination}`,
       description:
         `Cliente: ${name}\n` +
-        `Passageiros:* ${data.passageiros}\n` +
+        `Passageiros: ${passageiros || 'N/A'}\n` + // ✅ Fixed: was data.passageiros
         `Local de Encontro: ${meetingLocation}\n` +
         `Destino: ${destination}\n` +
         `Malas: ${numberOfBags}\n` +
