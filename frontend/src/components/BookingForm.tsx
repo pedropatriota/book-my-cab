@@ -170,7 +170,6 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    required
                     placeholder="Ex: João Silva"
                     {...field}
                     className="h-12"
@@ -192,7 +191,6 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    required
                     type="tel"
                     placeholder="Ex: +351 912 345 678"
                     {...field}
@@ -215,7 +213,6 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    required
                     placeholder="Ex: Vila do Conde"
                     {...field}
                     className="h-12"
@@ -237,7 +234,6 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    required
                     placeholder="Ex: Aeroporto Francisco Sá Carneiro (OPO)"
                     {...field}
                     className="h-12"
@@ -258,12 +254,7 @@ export const BookingForm = () => {
                   Data e Horário
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    required
-                    type="datetime-local"
-                    {...field}
-                    className="h-12"
-                  />
+                  <Input type="datetime-local" {...field} className="h-12" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
