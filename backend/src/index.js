@@ -1,5 +1,18 @@
+import express from "express";
+import cors from "cors";
 import { google } from "googleapis";
+import dotenv from "dotenv";
 
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3333;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Google Calendar setup
 const calendar = google.calendar("v3");
 
 const getAuthClient = () => {
@@ -11,25 +24,13 @@ const getAuthClient = () => {
   );
 };
 
-export default async function handler(req, res) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", message: "Backend is running" });
+});
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, error: 'Method not allowed' });
-  }
-
+// Create booking endpoint
+app.post("/api/create-booking", async (req, res) => {
   try {
     const {
       name,
@@ -80,7 +81,7 @@ export default async function handler(req, res) {
 
     console.log("Event created:", response.data.htmlLink);
 
-    res.status(200).json({
+    res.json({
       success: true,
       message: "Booking created successfully",
       eventId: response.data.id,
@@ -93,4 +94,8 @@ export default async function handler(req, res) {
       error: error.message || "Failed to create booking",
     });
   }
-}
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Backend server running on http://localhost:${PORT}`);
+});

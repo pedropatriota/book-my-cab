@@ -18,7 +18,7 @@ const Index = () => {
 
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Táxi Vila do Conde
+            Transfer Premium
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto">
             Viaje com conforto e segurança. Serviço profissional de táxi para
@@ -87,7 +87,7 @@ const Index = () => {
       <footer className="bg-foreground text-background py-8 mt-20">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm opacity-80">
-            © 2025 Táxi Vila do Conde. Todos os direitos reservados.
+            © 2025 Transfer Premium. Todos os direitos reservados.
           </p>
         </div>
       </footer>

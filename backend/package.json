@@ -4,10 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "start": "node api/create-booking.js"
-  },
-  "engines": {
-    "node": "20.x"
+    "start": "node src/index.js"
   },
   "dependencies": {
     "googleapis": "^128.0.0"
