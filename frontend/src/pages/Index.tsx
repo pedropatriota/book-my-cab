@@ -81,8 +81,12 @@ const Index = () => {
         <div id="booking" className="scroll-mt-20">
           <BookingForm />
         </div>
+      </div>
+        
+      </section>
 
-        {/* Tour in Vila do Conde */}
+     {/* Tour in Vila do Conde */}
+      <section className="py-16 container mx-auto px-4">
         <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
               <MapPinCheckInside className="w-8 h-8 text-primary" />
@@ -115,8 +119,6 @@ Reserva Ornitológica de Mindelo: Um dos primeiros parques ornitológicos de Por
 Paisagem Costeira: A paisagem combina as dunas e a vegetação costeira com as áreas urbanas e de pesca, criando um ambiente tranquilo e revitalizante.
             </p>
           </div>
-        </div>
-        
       </section>
 
       {/* Footer */}
