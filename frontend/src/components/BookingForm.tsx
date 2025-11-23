@@ -17,6 +17,7 @@ import {
 
 const bookingSchema = z.object({
   name: z.string().min(2, "Nome é obrigatório"),
+  passageiros: z.string().min(1, "Número de passageiros é obrigatório"),
   meetingLocation: z.string().min(3, "Local de encontro é obrigatório"),
   numberOfBags: z.string().min(1, "Quantidade de malas é obrigatória"),
   destination: z.string().min(3, "Destino é obrigatório"),
@@ -37,6 +38,7 @@ export const BookingForm = () => {
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       name: "",
+      passageiros: "",
       meetingLocation: "",
       numberOfBags: "",
       destination: "",
@@ -73,6 +75,8 @@ export const BookingForm = () => {
   const onSubmit = async (data: BookingFormData) => {
     setIsSubmitting(true);
 
+    console.log({ data });
+
     try {
       const bookingDate = new Date(data.dateTime);
 
@@ -102,15 +106,16 @@ export const BookingForm = () => {
 
       // Create WhatsApp message
       const whatsappMessage = encodeURIComponent(
-        `🚕 *Nova Reserva de Transfer*\n\n` +
-          `👤 *Cliente:* ${data.name}\n` +
-          `📍 *Local de Encontro:* ${data.meetingLocation}\n` +
-          `🧳 *Malas:* ${data.numberOfBags}\n` +
-          `🎯 *Destino:* ${data.destination}\n` +
-          `📅 *Data/Hora:* ${bookingDate.toLocaleString("pt-PT")}\n` +
-          `📱 *Telefone:* ${data.phone}`
+        `Nova Reserva de Transfer*\n\n` +
+          `*Cliente:* ${data.name}\n` +
+          `*Passageiros:* ${data.passageiros}\n` +
+          `*Local de Encontro:* ${data.meetingLocation}\n` +
+          `*Malas:* ${data.numberOfBags}\n` +
+          `*Destino:* ${data.destination}\n` +
+          `*Data/Hora:* ${bookingDate.toLocaleString("pt-PT")}\n` +
+          `*Telefone:* ${data.phone}`
       );
-      const whatsappNumber = "3519149813065";
+      const whatsappNumber = "351913809375";
       const url = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
       setWhatsappUrl(url);
@@ -127,7 +132,7 @@ export const BookingForm = () => {
       }, 500);
 
       form.reset();
-      setCustomerCalendarUrl(customerCalLink); // Keep the link visible for customer
+      setCustomerCalendarUrl(customerCalLink);
     } catch (error) {
       console.error("Error submitting booking:", error);
       toast.error("Erro ao enviar reserva", {
@@ -177,16 +182,17 @@ export const BookingForm = () => {
 
           <FormField
             control={form.control}
-            name="meetingLocation"
+            name="phone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  Local de Encontro
+                  <Phone className="w-4 h-4 text-primary" />
+                  Telefone de Contacto
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ex: Aeroporto de Lisboa, Terminal 1"
+                    type="tel"
+                    placeholder="Ex: +351 912 345 678"
                     {...field}
                     className="h-12"
                   />
@@ -198,18 +204,16 @@ export const BookingForm = () => {
 
           <FormField
             control={form.control}
-            name="numberOfBags"
+            name="meetingLocation"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
-                  <Luggage className="w-4 h-4 text-primary" />
-                  Quantidade de Malas
+                  <MapPin className="w-4 h-4 text-primary" />
+                  Local de Encontro
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
-                    min="0"
-                    placeholder="Ex: 2"
+                    placeholder="Ex: Vila do Conde"
                     {...field}
                     className="h-12"
                   />
@@ -230,7 +234,7 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ex: Rua Augusta, Lisboa"
+                    placeholder="Ex: Aeroporto Francisco Sá Carneiro (OPO)"
                     {...field}
                     className="h-12"
                   />
@@ -259,17 +263,41 @@ export const BookingForm = () => {
 
           <FormField
             control={form.control}
-            name="phone"
+            name="passageiros"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-primary" />
-                  Telefone de Contacto
+                  <User className="w-4 h-4 text-primary" />
+                  Quantidade de Passageiros
                 </FormLabel>
                 <FormControl>
                   <Input
-                    type="tel"
-                    placeholder="Ex: +351 912 345 678"
+                    type="number"
+                    min="0"
+                    placeholder="Ex: 2"
+                    {...field}
+                    className="h-12"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="numberOfBags"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <Luggage className="w-4 h-4 text-primary" />
+                  Quantidade de Malas
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min="0"
+                    placeholder="Ex: 2"
                     {...field}
                     className="h-12"
                   />
@@ -311,7 +339,7 @@ export const BookingForm = () => {
               onClick={() => window.open(customerCalendarUrl, "_blank")}
             >
               <Calendar className="w-4 h-4 mr-2" />
-              Adicionar ao Meu Calendário (Opcional)
+              Adicionar ao Meu Calendário
             </Button>
           )}
         </div>
