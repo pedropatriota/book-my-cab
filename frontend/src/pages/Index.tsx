@@ -84,18 +84,7 @@ const Index = () => {
         </div>        
       </section>
 
-      {/* <section className="py-16 container mx-auto px-4">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-              <MapPinCheckInside className="w-8 h-8 text-primary" />
-            </div>
-            <h3 className="font-semibold text-lg mb-2">Turismo em Vila do Conde</h3>
-          </div>
-            <p className="text-muted-foreground text-md">
-              Avaliação máxima dos clientes
-            </p>
-        </section> */}
-
+     
         <Tour/>
 
 
