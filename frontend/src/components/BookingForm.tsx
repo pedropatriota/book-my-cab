@@ -115,7 +115,7 @@ export const BookingForm = () => {
           `*Data/Hora:* ${bookingDate.toLocaleString("pt-PT")}\n` +
           `*Telefone:* ${data.phone}`
       );
-      const whatsappNumber = "351913809375";
+      const whatsappNumber = "351914981306";
       const url = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
       setWhatsappUrl(url);
