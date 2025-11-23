@@ -85,7 +85,6 @@ const Index = () => {
         
       </section>
 
-     {/* Tour in Vila do Conde */}
       <section className="py-16 container mx-auto px-4">
         <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
