@@ -1,4 +1,4 @@
-ran;import { BookingForm } from "@/components/BookingForm";
+import { BookingForm } from "@/components/BookingForm";
 import { Car, Shield, Clock, Star, MapPinCheckInside } from "lucide-react";
 import heroImage from "@/assets/taxi-hero.jpg";
 import Tour from "@/components/Tour"
