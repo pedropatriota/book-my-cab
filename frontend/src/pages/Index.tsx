@@ -1,8 +1,8 @@
-import { BookingForm } from "@/components/BookingForm";
+ran;import { BookingForm } from "@/components/BookingForm";
 import { Car, Shield, Clock, Star, MapPinCheckInside } from "lucide-react";
 import heroImage from "@/assets/taxi-hero.jpg";
 import Tour from "@/components/Tour"
-
+ 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(45,93%,97%)]">
@@ -19,11 +19,10 @@ const Index = () => {
 
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Transfer Premium
+            A sua segurança é a nossa viagem
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Viaje com conforto e segurança. Serviço profissional de táxi para
-            todas as suas necessidades.
+            Encontre o táxi ideal para o seu grupo. Opções de 5, 7 e 9 lugares.
           </p>
           <a
             href="#booking"
