@@ -22,7 +22,7 @@ const Index = () => {
             A sua segurança é a nossa viagem
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Encontre o táxi ideal para o seu grupo. Opções de 5, 7 e 9 lugares.
+            Encontre o táxi ideal para si. Opções de 5, 7 e 9 lugares.
           </p>
           <a
             href="#booking"
