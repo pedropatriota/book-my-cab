@@ -1,5 +1,5 @@
 import { BookingForm } from "@/components/BookingForm";
-import { Car, Shield, Clock, Star, MapPinCheckInside } from "lucide-react";
+import { Car, Shield, Clock, Star, MapPinCheckInside, Coins } from "lucide-react";
 import heroImage from "@/assets/taxi-hero.jpg";
 import Tour from "@/components/Tour"
  
@@ -68,11 +68,11 @@ const Index = () => {
 
           <div className="text-center">
             <div className="w-16 h-16 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-              <Star className="w-8 h-8 text-primary" />
+              <Coins className="w-8 h-8 text-primary" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">5 Estrelas</h3>
+            <h3 className="font-semibold text-lg mb-2">Pagamento Flexível</h3>
             <p className="text-muted-foreground text-sm">
-              Avaliação máxima dos clientes
+              Aceitamos MB Way e outros métodos de pagamento
             </p>
           </div>
         </div>
