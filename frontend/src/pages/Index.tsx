@@ -91,7 +91,7 @@ const Index = () => {
       <footer className="bg-foreground text-background py-8 mt-20">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm opacity-80">
-            © 2025 Transfer Premium. Todos os direitos reservados.
+            © 2025 Táxi Vila do Conde. Todos os direitos reservados.
           </p>
         </div>
       </footer>
