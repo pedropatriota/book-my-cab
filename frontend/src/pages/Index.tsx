@@ -72,7 +72,7 @@ const Index = () => {
             </div>
             <h3 className="font-semibold text-lg mb-2">Formas de Pagamento</h3>
             <p className="text-muted-foreground text-sm">
-              Aceitamos MB Way e outros métodos de pagamento
+              Aceitamos dinheiro, MB Way ou cartão
             </p>
           </div>
         </div>
