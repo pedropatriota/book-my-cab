@@ -213,7 +213,7 @@ export const BookingForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ex: Vila do Conde"
+                    placeholder="Ex: Avenida Brasil, 500 - Vila do Conde"
                     {...field}
                     className="h-12"
                   />
