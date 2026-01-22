@@ -6,32 +6,35 @@ import Tour from "@/components/Tour"
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(45,93%,97%)]">
-      {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-        </div>
+   <section className="relative h-[60vh] min-h-[500px] flex items-end md:items-center overflow-hidden">
+  {/* Background image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: `url(${heroImage})` }}
+  >
+    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+  </div>
 
-        <div className="relative z-10 container mx-auto px-4 text-center text-white">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            A sua segurança é a nossa viagem
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Encontre o táxi ideal para si. Opções de 5, 7 e 9 lugares.
-          </p>
-          <a
-            href="#booking"
-            className="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-full transition-all shadow-[var(--shadow-soft)] hover:scale-105"
-          >
-            Reservar Agora
-          </a>
-        </div>
-      </section>
+  {/* Content */}
+  <div className="relative z-10 container mx-auto px-4 pb-20 md:pb-0 text-center text-white">
+    <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-6 animate-fade-in">
+      A sua segurança é a nossa viagem
+    </h1>
+
+    <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto">
+      Encontre o táxi ideal para si. Opções de 5, 7 e 9 lugares.
+    </p>
+
+    <a
+      href="#booking"
+      className="inline-block bg-primary hover:bg-primary/90 text-white font-semibold px-10 py-4 rounded-full transition-all shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/60"
+    >
+      Reservar Agora
+    </a>
+  </div>
+</section>
+
+
 
       {/* Features Section */}
       <section className="py-16 container mx-auto px-4">
