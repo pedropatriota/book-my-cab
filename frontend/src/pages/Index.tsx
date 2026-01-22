@@ -1,6 +1,6 @@
 import { BookingForm } from "@/components/BookingForm";
 import { Car, Shield, Clock, Star, MapPinCheckInside, Coins } from "lucide-react";
-import heroImage from "@/assets/taxi-hero.jpg";
+import heroImage from "@/assets/taxi-hero.png";
 import Tour from "@/components/Tour"
  
 const Index = () => {
